@@ -8,14 +8,14 @@ import axios from 'axios';
 const Students = () => {
   const [students, setStudents] = useState([]);
   const [showAddModal, setShowAddModal] = useState(false);
-
+  const API_BASE = 'https://assignment-2-rxnb.onrender.com';
   useEffect(() => {
     fetchStudents();
   }, []);
 
   const fetchStudents = async () => {
     try {
-      const response = await axios.get('/api/students');
+      const response = await axios.get(`${API_BASE}/api/students`);
       setStudents(response.data);
     } catch (error) {
       toast.error('Error fetching students');
@@ -24,7 +24,7 @@ const Students = () => {
 
   const handleAddStudent = async (studentData) => {
     try {
-      const response = await axios.post('/api/students', studentData);
+      const response = await axios.post(`${API_BASE}/api/students`, studentData);
       setStudents([...students, response.data]);
       toast.success('Student added successfully');
       setShowAddModal(false);
@@ -35,7 +35,7 @@ const Students = () => {
 
   const handleUpdateStudent = async (id, updatedData) => {
     try {
-      const response = await axios.put(`/api/students/${id}`, updatedData);
+      const response = await axios.put(`${API_BASE}/api/students/${id}`, updatedData);
       setStudents(students.map(student => 
         student._id === id ? response.data : student
       ));
@@ -47,7 +47,7 @@ const Students = () => {
 
   const handleDeleteStudent = async (id) => {
     try {
-      await axios.delete(`/api/students/${id}`);
+      await axios.delete(`${API_BASE}/api/students/${id}`);
       setStudents(students.filter(student => student._id !== id));
       toast.success('Student deleted successfully');
     } catch (error) {
